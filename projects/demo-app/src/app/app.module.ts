@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModule } from '../../../ngx-image-cropper/src/lib/image-cropper.module';
 
 import { AppComponent } from './app.component';
 

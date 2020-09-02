@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { Dimensions } from '../../../ngx-image-cropper/src/lib/interfaces/dimensions.interface';
+import { ImageTransform } from '../../../ngx-image-cropper/src/lib/interfaces/image-transform.interface';
+import { ImageCroppedEvent } from '../../../ngx-image-cropper/src/lib/interfaces/image-cropped-event.interface';
 
 @Component({
     selector: 'app-root',
@@ -7,104 +9,75 @@ import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+    title = 'angular-image-handling';
+    thisSmartnameWidth: number = 300;
+    thisSmartnameHeight: number = 300;
+    thisImgWidth: number = 0;
+    thisImgHeight: number = 0;
     imageChangedEvent: any = '';
     croppedImage: any = '';
-    canvasRotation = 0;
-    rotation = 0;
+    imageAspectRatio: number;
     scale = 1;
-    showCropper = false;
-    containWithinAspectRatio = false;
     transform: ImageTransform = {};
-    imageURL: string;
-
-    fileChangeEvent(event: any): void {
+      
+    fileChangeEvent(event: any): void { 
+        console.log('Image changed');
         this.imageChangedEvent = event;
+        this.scale = 1;
+        this.transform = {
+            ...this.transform,
+            scale: this.scale
+        };
     }
-
+    
+    imageLoaded(sourceImage:HTMLImageElement) {
+        // show cropper
+        console.log('Image loaded');
+        var imgWidth = sourceImage.naturalWidth;
+        var imgHeight = sourceImage.naturalHeight;
+        if (imgHeight > this.thisSmartnameHeight && imgWidth > this.thisSmartnameWidth) {
+            this.imageAspectRatio = this.thisSmartnameWidth/this.thisSmartnameHeight; 
+        } else if (imgHeight > this.thisSmartnameHeight) {
+            this.imageAspectRatio = imgWidth/this.thisSmartnameHeight;
+        } else if (imgWidth > this.thisSmartnameWidth) {
+            this.imageAspectRatio = this.thisSmartnameWidth/imgHeight; 
+        } else {
+            this.imageAspectRatio = imgWidth/imgHeight;
+        }
+    }
+    
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
-        console.log(event);
     }
-
-    imageLoaded() {
-        this.showCropper = true;
-        console.log('Image loaded');
-    }
-
+    
     cropperReady(sourceImageDimensions: Dimensions) {
-        console.log('Cropper ready', sourceImageDimensions);
+        // cropper ready
+        console.log('Cropper ready');
     }
-
+  
     loadImageFailed() {
-        console.log('Load failed');
+        // show message
     }
-
-    rotateLeft() {
-        this.canvasRotation--;
-        this.flipAfterRotate();
-    }
-
-    rotateRight() {
-        this.canvasRotation++;
-        this.flipAfterRotate();
-    }
-
-    private flipAfterRotate() {
-        const flippedH = this.transform.flipH;
-        const flippedV = this.transform.flipV;
-        this.transform = {
-            ...this.transform,
-            flipH: flippedV,
-            flipV: flippedH
-        };
-    }
-
-
-    flipHorizontal() {
-        this.transform = {
-            ...this.transform,
-            flipH: !this.transform.flipH
-        };
-    }
-
-    flipVertical() {
-        this.transform = {
-            ...this.transform,
-            flipV: !this.transform.flipV
-        };
-    }
-
-    resetImage() {
-        this.scale = 1;
-        this.rotation = 0;
-        this.canvasRotation = 0;
-        this.transform = {};
-    }
-
+  
     zoomOut() {
-        this.scale -= .1;
-        this.transform = {
+        console.log('Zoom out');
+        if (this.scale > .5) {
+            this.scale -= .1;
+            this.transform = {
             ...this.transform,
             scale: this.scale
-        };
+            };
+        }
     }
-
+  
     zoomIn() {
-        this.scale += .1;
-        this.transform = {
-            ...this.transform,
-            scale: this.scale
-        };
-    }
-
-    toggleContainWithinAspectRatio() {
-        this.containWithinAspectRatio = !this.containWithinAspectRatio;
-    }
-
-    updateRotation() {
-        this.transform = {
-            ...this.transform,
-            rotate: this.rotation
-        };
+        console.log('Zoom in');
+        if (this.scale < 2) {
+            this.scale += .1;
+            this.transform = {
+                ...this.transform,
+                scale: this.scale
+            };
+        }
     }
 }
