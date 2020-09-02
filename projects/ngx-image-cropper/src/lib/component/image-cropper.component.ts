@@ -43,8 +43,8 @@ export class ImageCropperComponent implements OnChanges, OnInit {
     private setImageMaxSizeRetries = 0;
     private cropperScaledMinWidth = 20;
     private cropperScaledMinHeight = 20;
-    private cropperScaledMaxWidth = 50;
-    private cropperScaledMaxHeight = 50;
+    private cropperScaledMaxWidth = 20;
+    private cropperScaledMaxHeight = 20;
     private exifTransform: ExifTransform = {rotate: 0, flip: false};
     private autoRotateSupported: Promise<boolean> = supportsAutomaticRotation();
     private stepSize = 3;
@@ -630,9 +630,9 @@ export class ImageCropperComponent implements OnChanges, OnInit {
     private setCropperScaledMaxSize(): void {
         const sourceImageElement = this.sourceImage.nativeElement;
         const ratio = this.transformedSize.width / sourceImageElement.offsetWidth;
-        this.cropperScaledMaxWidth = this.cropperMaxWidth > 50? this.cropperMaxWidth : this.maxSize.width;
-        this.cropperScaledMaxHeight = this.cropperMaxHeight > 50? this.cropperMaxHeight : this.maxSize.height;
-        if (ratio != 1) {
+        this.cropperScaledMaxWidth = this.cropperMaxWidth > 20? this.cropperMaxWidth : this.maxSize.width;
+        this.cropperScaledMaxHeight = this.cropperMaxHeight > 20? this.cropperMaxHeight : this.maxSize.height;
+        if (ratio != 1 && (this.cropperMaxWidth > 20 || this.cropperMaxHeight > 20)) {
             this.cropperScaledMaxWidth = this.cropperScaledMaxWidth/ratio;
             this.cropperScaledMaxHeight = this.cropperScaledMaxHeight/ratio;
         }
