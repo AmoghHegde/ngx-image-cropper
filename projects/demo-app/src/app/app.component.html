@@ -1,33 +1,9 @@
 <div class="row col-md-12">
+    <h1>Image Cropper</h1>
+    <input hidden type="file" #uploader (change)="fileChangeEvent($event)" />
 	<div class="row d-lg-block col-md-5 text-center" style="text-align:center;margin:0px auto">
-                <div style="width:300px;border:1px dashed #ff0000; height:300px">
+                <div (click)="uploader.click()" style="width:300px;border:1px dashed #ff0000; height:300px">
                     <img [src]="croppedImage" />
                 </div>
     </div>
-    <div class="row d-lg-block col-md-7">
-            <div class="row col-md-12" style="margin-top: 5%;">
-                <div class="text-center col-md-12">
-                    <input type="file" (change)="fileChangeEvent($event)" />
-                    <button (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button>
-                </div>
-            </div>
-            <div class="row col-md-12" style="margin-top: 1%;">
-                <div class="text-center col-md-12">
-						<h5>Crop Image</h5>
-						<image-cropper
-						[imageChangedEvent]="imageChangedEvent" 
-						[maintainAspectRatio]="true" 
-						[aspectRatio]="imageAspectRatio"
-						[transform]="transform"
-                        [imageQuality]="100"
-                        [cropperMaxHeight]="300"
-                        [cropperMaxWidth]="300"
-						format="png"
-						(imageCropped)="imageCropped($event)"
-						(imageLoaded)="imageLoaded($event)"
-						(cropperReady)="cropperReady($event)" 
-						(loadImageFailed)="loadImageFailed()"></image-cropper>
-                </div>
-            </div>
-	</div>
 </div>
