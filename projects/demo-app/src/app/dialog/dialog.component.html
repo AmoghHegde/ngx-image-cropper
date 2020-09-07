@@ -1,0 +1,26 @@
+
+    <div class="row col-md-12" style="margin-top: 5%;">
+        <div class="text-center col-md-12">
+            <button (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button>
+        </div>
+    </div>
+    <div class="row col-md-12" style="margin-top: 1%;">
+        <div class="text-center col-md-12">
+                <h5>Crop Image</h5>
+                <image-cropper
+                [imageChangedEvent]="imageChangedEvent" 
+                [maintainAspectRatio]="true" 
+                [aspectRatio]="imageAspectRatio"
+                [transform]="transform"
+                [imageQuality]="100"
+                [cropperMaxHeight]="300"
+                [cropperMaxWidth]="300"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)"
+                (cropperReady)="cropperReady($event)" 
+                (loadImageFailed)="loadImageFailed()"></image-cropper>
+        </div>
+    </div>
+
+<button mat-button [mat-dialog-close]="croppedImage">Preview</button>
