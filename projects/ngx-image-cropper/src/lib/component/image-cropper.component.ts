@@ -436,13 +436,13 @@ export class ImageCropperComponent implements OnChanges, OnInit {
                 this.cropper.x1 = 0;
                 this.cropper.x2 = cropperWidth;
                 const cropperHeightWithAspectRatio = cropperWidth / this.aspectRatio;
-                this.cropper.y1 = (cropperHeight - cropperHeightWithAspectRatio) / 2;
+                this.cropper.y1 = (sourceImageElement.offsetHeight - cropperHeightWithAspectRatio) / 2;
                 this.cropper.y2 = this.cropper.y1 + cropperHeightWithAspectRatio;
             } else {
                 this.cropper.y1 = 0;
                 this.cropper.y2 = cropperHeight;
                 const cropperWidthWithAspectRatio = cropperHeight * this.aspectRatio;
-                this.cropper.x1 = (cropperWidth - cropperWidthWithAspectRatio) / 2;
+                this.cropper.x1 = (sourceImageElement.offsetWidth - cropperWidthWithAspectRatio) / 2;
                 this.cropper.x2 = this.cropper.x1 + cropperWidthWithAspectRatio;
             }
         }
